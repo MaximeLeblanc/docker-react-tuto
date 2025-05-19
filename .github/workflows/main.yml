@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - run: docker build -t maximeleblanc/docker-react-app -f Dockerfile.dev .
       - run: docker run -e CI=true maximeleblanc/docker-react-app npm test
 
@@ -20,8 +21,8 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          application_name: docker
-          environment_name: Docker-env
+          application_name: frontend
+          environment_name: Frontend-env
           existing_bucket_name: elasticbeanstalk-eu-north-1-932175181092
           region: eu-north-1
           version_label: ${{ github.sha }}
